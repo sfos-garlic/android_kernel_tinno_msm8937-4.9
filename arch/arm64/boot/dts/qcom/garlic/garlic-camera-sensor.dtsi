@@ -10,7 +10,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-
+/*
 &soc {
 		led_flash1: qcom,camera-led-flash {
 			cell-index = <1>;
@@ -210,3 +210,4 @@
 		qcom,clock-rates = <24000000 0>;
 	};
 };
+*/
