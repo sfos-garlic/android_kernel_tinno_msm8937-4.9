@@ -1,6 +1,3 @@
-#ifdef CONFIG_PROJECT_GARLIC
-#include "msm_cam_sensor_n.h"
-#else
 #ifndef __LINUX_MSM_CAM_SENSOR_H
 #define __LINUX_MSM_CAM_SENSOR_H
 
@@ -302,4 +299,3 @@ struct msm_flash_cfg_data_t32 {
 #endif
 
 #endif
-#endif /* CONFIG_PROJECT_GARLIC */

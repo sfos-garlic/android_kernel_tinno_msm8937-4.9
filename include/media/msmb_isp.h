@@ -9,9 +9,6 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-#ifdef CONFIG_PROJECT_GARLIC
-#include "msmb_isp_n.h"
-#else
 #ifndef __MSMB_ISP__
 #define __MSMB_ISP__
 
@@ -45,7 +42,6 @@ struct msm_isp32_event_data32 {
 };
 
 #endif
-
 #ifdef CONFIG_MSM_AVTIMER
 struct avtimer_fptr_t {
 	int (*fptr_avtimer_open)(void);
@@ -54,5 +50,5 @@ struct avtimer_fptr_t {
 };
 void msm_isp_set_avtimer_fptr(struct avtimer_fptr_t avtimer_func);
 #endif
-#endif /* __MSMB_ISP__ */
-#endif /* CONFIG_PROJECT_GARLIC */
+#endif
+
