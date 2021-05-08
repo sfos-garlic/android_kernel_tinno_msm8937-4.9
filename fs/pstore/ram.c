@@ -37,6 +37,8 @@
 #include <linux/of.h>
 #include <linux/of_address.h>
 #include <linux/memblock.h>
+	
+#include <linux/bootmem.h>
 
 #define RAMOOPS_KERNMSG_HDR "===="
 #define MIN_MEM_SIZE 4096UL
@@ -819,8 +821,8 @@ static int __init ramoops_memreserve(char *p)
 	ramoops_data.pmsg_size = size / 2;
 	ramoops_data.dump_oops = 1;
 
-	pr_info("msm_reserve_ramoops_memory addr=%lx,size=%lx\n",
-			ramoops_data.mem_address, ramoops_data.mem_size);
+//	pr_info("msm_reserve_ramoops_memory addr=%lx,size=%lx\n",
+//			ramoops_data.mem_address, ramoops_data.mem_size);
 	pr_info("msm_reserve_ramoops_memory record_size=%lx,ftrace_size=%lx\n",
 			ramoops_data.record_size, ramoops_data.ftrace_size);
 

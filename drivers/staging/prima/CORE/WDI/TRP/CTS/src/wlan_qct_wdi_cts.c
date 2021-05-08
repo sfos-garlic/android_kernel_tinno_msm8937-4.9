@@ -743,7 +743,7 @@ WCTS_OpenTransport
 )
 {
    WCTS_ControlBlockType*    pWCTSCb;
-   int                       smdstatus;
+//   int                       smdstatus;
 
    /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 
@@ -836,26 +836,26 @@ WCTS_OpenTransport
    /*---------------------------------------------------------------------
      Open the SMD channel
      ---------------------------------------------------------------------*/
-   smdstatus = vos_smd_open(szName, pWCTSCb);
-   if (0 != smdstatus) {
-      WPAL_TRACE(eWLAN_MODULE_DAL_CTRL, eWLAN_PAL_TRACE_LEVEL_ERROR,
-                 "%s: smd_named_open_on_edge failed with status %d",
-                 __func__, smdstatus);
-      goto fail;
-   }
+//   smdstatus = vos_smd_open(szName, pWCTSCb);
+//   if (0 != smdstatus) {
+//      WPAL_TRACE(eWLAN_MODULE_DAL_CTRL, eWLAN_PAL_TRACE_LEVEL_ERROR,
+//                 "%s: smd_named_open_on_edge failed with status %d",
+//                 __func__, smdstatus);
+//      goto fail;
+//   }
 
    /* we initially don't want read interrupts
       (we only want them if we get into deferred write mode) */
-   smd_disable_read_intr(pWCTSCb->wctsChannel);
+//   smd_disable_read_intr(pWCTSCb->wctsChannel);
 
    /* we have successfully opened the SMD channel */
-   gwctsHandle = pWCTSCb;
-   return (WCTS_HandleType)pWCTSCb;
+//   gwctsHandle = pWCTSCb;
+//   return (WCTS_HandleType)pWCTSCb;
 
- fail:
+// fail:
    /* we were unable to open the SMD channel */
-   pWCTSCb->wctsMagic = 0;
-   wpalMemoryFree(pWCTSCb);
+//   pWCTSCb->wctsMagic = 0;
+//   wpalMemoryFree(pWCTSCb);
    return NULL;
 
 }/*WCTS_OpenTransport*/
