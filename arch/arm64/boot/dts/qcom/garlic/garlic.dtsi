@@ -127,10 +127,11 @@
 		wled: qcom,leds@d800 {
 			/delete-property/ qcom,en-ext-pfet-sc-pro;
 		};
-
+/*
 		pmi_haptic: qcom,haptic@c000 {
 			qcom,vmax-mv = <3000>;
 		};
+		*/
 	};
 };
 &soc {
