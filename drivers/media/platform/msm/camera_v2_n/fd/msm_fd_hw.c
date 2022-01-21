@@ -1196,12 +1196,19 @@ void msm_fd_hw_remove_buffers_from_queue(struct msm_fd_device *fd,
 		time = wait_for_completion_timeout(&active_buffer->completion,
 			msecs_to_jiffies(MSM_FD_PROCESSING_TIMEOUT_MS));
 		if (!time) {
-			/* Do a vb2 buffer done since it timed out */
-			vb2_buffer_done(&active_buffer->vb, VB2_BUF_STATE_DONE);
-			/* Remove active buffer */
-			msm_fd_hw_get_active_buffer(fd);
-			/* Schedule if other buffers are present in device */
-			msm_fd_hw_schedule_next_buffer(fd);
+			if (atomic_read(&active_buffer->active)) {
+				atomic_set(&active_buffer->active, 0);
+				/* Do a vb2 buffer done since it timed out */
+				vb2_buffer_done(
+					&active_buffer->vb_v4l2_buf.vb2_buf,
+					VB2_BUF_STATE_DONE);
+				/* Remove active buffer */
+				msm_fd_hw_get_active_buffer(fd, 0);
+				/* Schedule if other buffers are present */
+				msm_fd_hw_schedule_next_buffer(fd, 0);
+			} else {
+				dev_err(fd->dev, "activ buf no longer active\n");
+			}
 		}
 	}
 
@@ -1214,7 +1221,7 @@ void msm_fd_hw_remove_buffers_from_queue(struct msm_fd_device *fd,
  * @buffer: Fd buffer.
  */
 int msm_fd_hw_buffer_done(struct msm_fd_device *fd,
-	struct msm_fd_buffer *buffer)
+	struct msm_fd_buffer *buffer, u8 lock_flag)
 {
 	int ret = 0;
 
@@ -1237,7 +1244,8 @@ int msm_fd_hw_buffer_done(struct msm_fd_device *fd,
  * msm_fd_hw_get_active_buffer - Get active buffer from fd processing queue.
  * @fd: Fd device.
  */
-struct msm_fd_buffer *msm_fd_hw_get_active_buffer(struct msm_fd_device *fd)
+struct msm_fd_buffer *msm_fd_hw_get_active_buffer(struct msm_fd_device *fd,
+	u8 lock_flag)
 {
 	struct msm_fd_buffer *buffer = NULL;
 
@@ -1280,7 +1288,7 @@ int msm_fd_hw_schedule_and_start(struct msm_fd_device *fd)
  *
  * NOTE: This can be executed only when device is in running state.
  */
-int msm_fd_hw_schedule_next_buffer(struct msm_fd_device *fd)
+int msm_fd_hw_schedule_next_buffer(struct msm_fd_device *fd, u8 lock_flag)
 {
 	struct msm_fd_buffer *buf;
 	int ret;

@@ -1179,10 +1179,14 @@ void msm_isp_start_avtimer(void)
 void msm_isp_get_avtimer_ts(
 		struct msm_isp_timestamp *time_stamp)
 {
-	pr_err_ratelimited("%s: Error: AVTimer driver not available\n",
+	struct timespec ts;
+
+	pr_debug("%s: AVTimer driver not available using system time\n",
 		__func__);
-	time_stamp->vt_time.tv_sec = 0;
-	time_stamp->vt_time.tv_usec = 0;
+
+	get_monotonic_boottime(&ts);
+	time_stamp->vt_time.tv_sec    = ts.tv_sec;
+	time_stamp->vt_time.tv_usec   = ts.tv_nsec/1000;
 }
 #endif
 
